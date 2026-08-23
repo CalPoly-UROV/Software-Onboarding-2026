@@ -1,0 +1,14 @@
+# Random Number Service
+# This file defines the structure of a ROS service request and response.
+#
+# Each line in the request section describes an input value sent by the client.
+# Each line in the response section describes the value returned by the server.
+#
+# Example:
+#   Request: minimum and maximum bounds for the random value
+#   Response: generated random integer within that range
+
+int64 min_value
+int64 max_value
+---
+int64 random_number

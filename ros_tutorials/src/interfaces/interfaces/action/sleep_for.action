@@ -1,0 +1,15 @@
+# SleepFor Action
+# This file defines a simple action that sleeps for a requested duration.
+#
+# The client sends a goal with a time to sleep.
+# The server executes the sleep and returns a result once complete.
+# Feedback can be sent periodically while the action is running.
+
+# Goal
+ duration seconds
+---
+# Result
+ bool success
+---
+# Feedback
+ duration remaining
