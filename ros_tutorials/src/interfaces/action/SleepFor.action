@@ -6,10 +6,10 @@
 # Feedback can be sent periodically while the action is running.
 
 # Goal
- duration seconds
+float64 seconds
 ---
 # Result
- bool success
+bool success
 ---
 # Feedback
- duration remaining
+float64 remaining

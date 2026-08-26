@@ -18,12 +18,13 @@
 import rclpy
 from rclpy.node import Node
 
-# Example action design:
+# Action design:
 #   Goal: duration (seconds)
 #   Result: success (bool)
 #   Feedback: remaining (duration)
-# Replace this with the action type you define in your custom interface package,
-# for example: from my_interfaces.action import SleepFor
+# 
+# Here, import SleepFor from the interfaces.action module
+# SleepFor is the custom action type.
 
 # ROS 2 boilerplate pattern:
 # 1. Import rclpy and the base Node class.

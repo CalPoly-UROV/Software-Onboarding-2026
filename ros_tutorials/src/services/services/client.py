@@ -18,11 +18,12 @@
 import rclpy
 from rclpy.node import Node
 
-# Example service design:
+# Service design:
 #   Request: min_value, max_value
 #   Response: random_number
-# Replace this with the service type you define in your custom interface package,
-# from interfaces.srv import RandomNumber
+# 
+# Here, import RandomNumber from the interfaces.srv module
+# RandomNumber is the custom Service type.
 
 # ROS 2 boilerplate pattern:
 # 1. Import rclpy and the base Node class.

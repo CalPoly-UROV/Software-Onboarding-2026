@@ -22,11 +22,12 @@
 import rclpy
 from rclpy.node import Node
 
-# Example service design:
+# Service design:
 #   Request: min_value, max_value
 #   Response: random_number
-# Replace this with the service type you define in your custom interface package,
-# from interfaces.srv import RandomNumber
+#
+# Here, import RandomNumber from the interfaces.srv module
+# RandomNumber is the custom Service type.
 
 # ROS 2 boilerplate pattern:
 # 1. Import rclpy and the base Node class.
@@ -64,7 +65,7 @@ class ServiceServer(Node):
         #   - error(): log errors
 
     # Create a service callback that generates a random number.
-    # The callback should read the request values, generate a value between min and max,
+    # The callback should read the request values, generate a value between min and max (inclusive),
     # and return a response containing the generated number.
     def generate_random_number(self, request, response):
         # TODO: Read request.min and request.max
