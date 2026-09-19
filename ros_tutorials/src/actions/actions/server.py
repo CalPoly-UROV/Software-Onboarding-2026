@@ -71,10 +71,12 @@ class ActionServer(Node):
         # TODO: Set the result and return it
         return None
 
-
-if __name__ == '__main__':
+def main():
     rclpy.init()
     node = ActionServer()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()

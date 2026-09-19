@@ -7,7 +7,7 @@
 #
 # The exercise introduces the basic ROS 2 service server pattern:
 # - create a custom node class that inherits from rclpy.node.Node
-# - initialize the node with a unique name, such as "random_number_server"
+# - initialize the node with a unique name
 # - define a custom service type (for example, a request with min and max values,
 #   and a response with a generated number)
 # - create a service with self.create_service(...)
@@ -48,14 +48,14 @@ class ServiceServer(Node):
         # TODO: Use a callback method such as self.generate_random_number
         # TODO: Register the service under a topic name like 'generate_random_number'
 
-        # create_service:
+        # self.create_service:
         #   Creates a service server that waits for requests and invokes a callback.
         #   Usage: self.create_service(ServiceType, 'service_name', callback)
         #   - ServiceType: the ROS service class you define in an .srv file
         #   - 'service_name': unique name for the service, e.g. 'generate_random_number'
         #   - callback: function that receives request and returns a response
         #   Typical use: handle operations such as calculations, data generation,
-        #   or device control requests.
+        #   device control requests, or configurations.
         #
         # self.get_logger():
         #   Returns the node's ROS logger, used for printing status and debug output.
@@ -74,10 +74,12 @@ class ServiceServer(Node):
         # TODO: Return response
         return response
 
-
-if __name__ == '__main__':
+def main():
     rclpy.init()
     node = ServiceServer()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()

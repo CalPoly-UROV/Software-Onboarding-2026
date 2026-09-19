@@ -62,10 +62,12 @@ class ActionClient(Node):
         # TODO: Handle feedback and wait for the final result.
         pass
 
-
-if __name__ == '__main__':
+def main():
     rclpy.init()
     node = ActionClient()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+    
+if __name__ == '__main__':
+    main()

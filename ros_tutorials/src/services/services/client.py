@@ -5,7 +5,7 @@
 #
 # The exercise introduces the basic ROS 2 service client pattern:
 # - create a custom node class that inherits from rclpy.node.Node
-# - initialize the node with a unique name, such as "random_number_client"
+# - initialize the node with a unique name
 # - create a client with self.create_client(...)
 # - define a request object with the required fields
 # - call the service and wait for a response
@@ -32,7 +32,8 @@ from rclpy.node import Node
 # 4. Add services, publishers, subscribers, timers, and other ROS interfaces in __init__.
 # 5. In main(), initialize rclpy, create the node, then spin it.
 #    Finally destroy the node and shutdown ROS.
-#
+#    NOTE: In this node, you will not spin the node because the service calls one time and exits.
+#          See the main() function for details.
 # This pattern is the standard starting point for most ROS 2 Python nodes.
 
 
@@ -44,12 +45,18 @@ class ServiceClient(Node):
         # TODO: Wait for the service to be available
         # TODO: Create a request containing min and max values
 
-        # create_client:
+        # self.create_client:
         #   Creates a service client used to call a ROS service.
         #   Usage: self.create_client(ServiceType, 'service_name')
         #   - ServiceType: the ROS service class you defined in an .srv file
         #   - 'service_name': name of the service to call
         #   Typical use: request a computation, configuration, or value from a server.
+        #
+        # client.wait_for_service:
+        #   Waits until the service server is available before sending a request.
+        #   Usage: self.client.wait_for_service(timeout_sec=1.0)
+        #   - timeout_sec: maximum number of seconds to wait for this check
+        #   The method returns True when the service is available and False on timeout.
         #
         # self.get_logger():
         #   Returns the node's ROS logger, used to print request/response details.
@@ -58,14 +65,33 @@ class ServiceClient(Node):
     # Create a method that sends the service request.
     def send_request(self):
         # TODO: Build a request object with a min and max range
-        # TODO: Call the service and wait for a response
-        # TODO: Log the returned random number
+        # TODO: Call the service asynchronously
+        #
+        # client.call_async:
+        #   Sends the request without blocking and returns a Future for the response.
+        #   Usage: self.client.call_async(request)
+        #   The Future can be passed to rclpy.spin_until_future_complete(...)
+        #   and its result can then be read with future.result().
+
         pass
 
-
-if __name__ == '__main__':
+def main():
     rclpy.init()
     node = ServiceClient()
-    rclpy.spin(node)
+    # Get handle on request which will resolve in the future
+    future = node.send_request()
+    # Continue running node until response recieved
+    rclpy.spin_until_future_complete(node, future)
+    try:
+        # Get response from handle
+        response = future.result()
+        node.get_logger().info(f'Generated number: {response.random_number}')
+    except Exception as error:
+        # Log the error if the service call fails
+        node.get_logger().error(f'Service call failed: {error}')
+
     node.destroy_node()
     rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()

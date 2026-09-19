@@ -67,10 +67,12 @@ class Sub(Node):
         
         pass
 
-
-if __name__ == '__main__':
+def main():
     rclpy.init()
     node = Sub()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+    
+if __name__ == '__main__':
+    main()
