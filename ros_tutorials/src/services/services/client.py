@@ -30,10 +30,8 @@ from rclpy.node import Node
 # 2. Create a custom node class that inherits from Node.
 # 3. In __init__, call super().__init__("node_name") to register the node.
 # 4. Add services, publishers, subscribers, timers, and other ROS interfaces in __init__.
-# 5. In main(), initialize rclpy, create the node, then spin it.
+# 5. In main(), initialize rclpy, create the node, then make request to server and wait for result.
 #    Finally destroy the node and shutdown ROS.
-#    NOTE: In this node, you will not spin the node because the service calls one time and exits.
-#          See the main() function for details.
 # This pattern is the standard starting point for most ROS 2 Python nodes.
 
 
@@ -64,7 +62,7 @@ class ServiceClient(Node):
 
     # Create a method that sends the service request.
     def send_request(self):
-        # TODO: Build a request object with a min and max range
+        # TODO: Build a RandomNumber.Request object with a min and max range
         # TODO: Call the service asynchronously
         #
         # client.call_async:

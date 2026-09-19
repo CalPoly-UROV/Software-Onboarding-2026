@@ -9,7 +9,7 @@
 #
 # The exercise introduces the basic ROS 2 action server pattern:
 # - create a custom node class that inherits from rclpy.node.Node
-# - initialize the node with a unique name, such as "sleep_action_server"
+# - initialize the node with a unique name
 # - define a custom action type with goal, result, and feedback fields
 # - create an action server with self.create_server(...)
 # - implement a callback that sleeps for the requested duration and returns a result
@@ -22,6 +22,7 @@
 
 import rclpy
 from rclpy.node import Node
+from rclpy.action import ActionServer
 
 # Action design:
 #   Goal: seconds (float64)
@@ -42,7 +43,7 @@ from rclpy.node import Node
 # This pattern is the standard starting point for most ROS 2 Python nodes.
 
 
-class ActionServer(Node):
+class Server(Node):
     def __init__(self):
         super().__init__('action_server')
 
@@ -50,9 +51,10 @@ class ActionServer(Node):
         # TODO: Use an execute_callback that handles the goal.
         # TODO: Publish feedback while sleeping.
 
-        # create_server:
+        # ActionServer():
         #   Creates an action server that receives goals and manages execution.
-        #   Usage: self.create_server(ActionType, 'action_name', execute_callback)
+        #   Usage: ActionServer(Node, ActionType, 'action_name', execute_callback)
+        #   - Node: the ROS node that hosts the action server, usually self
         #   - ActionType: the ROS action class you define in an .action file
         #   - 'action_name': unique name for the action, e.g. 'sleep_for'
         #   - execute_callback: function that handles the action goal
@@ -67,13 +69,26 @@ class ActionServer(Node):
     def execute_callback(self, goal_handle):
         # TODO: Read goal_handle.request.seconds
         # TODO: Sleep for the requested duration
-        # TODO: Send feedback with remaining time
-        # TODO: Set the result and return it
+        # TODO: Construct SleepFor.Feedback object and periodically publish remaining time
+        # TODO: Call goal_handle.succeed() when done
+        # TODO: Set the result as successful and return it
+        # NOTE: There are several ways to handle the feedback mechanism here, but the most intuitive 
+        #       is probably to use a loop that sleeps for a short interval (e.g., 0.1 seconds) and 
+        #       updates the remaining time in feedback.
+        #
+        # goal_handle.publish_feedback(feedback_msg):
+        #   Sends a feedback message to the client while the action is running.
+        #   Usage: goal_handle.publish_feedback(feedback)
+        #
+        # goal_handle.succeed():
+        #   Marks the goal as completed successfully.
+        #   Usage: goal_handle.succeed()
+        #   After calling this, build and return the final SleepFor.Result message.
         return None
 
 def main():
     rclpy.init()
-    node = ActionServer()
+    node = Server()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
